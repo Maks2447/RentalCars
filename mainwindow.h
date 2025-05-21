@@ -84,6 +84,10 @@ private slots:
 
     void on_plus_upload_Photo_button_clicked();
 
+    void change_car_info(const QVector<QString> &car);
+
+    void on_saveChanges_car_button_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -109,6 +113,7 @@ private:
     QString timePick_end;
 
     QString car_id;
+    QString car_id_change;
 
     QString oldStyle;
 

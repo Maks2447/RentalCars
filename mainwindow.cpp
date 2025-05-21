@@ -153,8 +153,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-
     this->showFullScreen();
+    this->setFixedSize(this->size());
+
 }
 
 MainWindow::~MainWindow()
@@ -593,16 +594,22 @@ void MainWindow::setData(const UserData &user)
 
     ui->plus_upload_Photo_button->setIcon(QIcon("C:/Users/golov/Downloads/orange-plus-11974.png"));
 
-    int indexx = ui->ProfilePage_mainTabWidget->indexOf(ui->tab);
-    if (indexx != -1) {
-        ui->ProfilePage_mainTabWidget->removeTab(indexx);
+    int indexMain = ui->ProfilePage_mainTabWidget->indexOf(ui->tab);
+    if (indexMain != -1) {
+        ui->ProfilePage_mainTabWidget->setTabVisible(indexMain, false);
     }
 
     //!!!!!!!!!!!!!!!!
     //currentUser.id_user = 1 ;
     if(currentUser.id_user == 1) {
-        ui->ProfilePage_mainTabWidget->insertTab(indexx, ui->tab, "Car management");
+        ui->ProfilePage_mainTabWidget->setTabVisible(indexMain, true);
     }
+
+    int indexInfo = ui->CarManagement_TabWidget->indexOf(ui->ChangeInfo_tab);
+    if (indexInfo != -1) {
+        ui->CarManagement_TabWidget->setTabVisible(indexInfo, false);
+    }
+
 }
 
 
@@ -1194,7 +1201,6 @@ void MainWindow::creationInnerTabs()
     };
 
 
-
     connect(ui->Account_name_EditLine, &QLineEdit::textChanged, this, checkChangesInformation);
     connect(ui->Account_LastName_EditLine, &QLineEdit::textChanged, this, checkChangesInformation);
     connect(ui->Account_phone_EditLine, &QLineEdit::textChanged, this, checkChangesInformation);
@@ -1348,6 +1354,7 @@ void MainWindow::on_plus_upload_Photo_button_clicked()
     }
 }
 
+
 void MainWindow::on_add_new_car_button_clicked()
 {
     if(currentPhotoFilePath.isEmpty()) {
@@ -1419,6 +1426,7 @@ void MainWindow::delete_car_Tab()
             car.append(query.value("transmission").toString());
             car.append(query.value("price").toString());
             car.append(query.value("passengers").toString());
+            car.append(query.value("type").toString());
             car.append(query.value("id_car").toString());
 
             QPixmap pixmap;
@@ -1477,6 +1485,9 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
             "    background-color: #c45f00;"
             "}"
             );
+        connect(change_button, &QPushButton::clicked, this, [=]() {
+            change_car_info(car);
+        });
 
         QPushButton *delete_button = new QPushButton(widgetCard);
         delete_button->setFixedSize(30,35);
@@ -1507,4 +1518,63 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
         widgetCard->setStyleSheet("QWidget { background-color: #1a1a1a; }");
     }
     ui->verticalLayout_24->addStretch();
+}
+
+void MainWindow::change_car_info(const QVector<QString> &car)
+{
+    car_id_change = car[8];
+
+    ui->CarManagement_TabWidget->setTabVisible(2, true);
+    ui->CarManagement_TabWidget->setCurrentIndex(2);
+
+    ui->Change_model_LineEdit->setText(car[0]);
+    ui->Change_vehicleType_LineEdit->setText(car[7]);
+    ui->Change_FuelType_LineEdit->setText(car[3]);
+    ui->Change_Transmission_LineEdit->setText(car[4]);
+    ui->Change_class_LineEdit->setText(car[2]);
+    ui->Change_specifications_LineEdit->setText(car[1]);
+    ui->Change_numPassengers_LineEdit->setText(car[6]);
+    ui->Change_price_LineEdit->setText(car[5]);
+
+
+    QList<QLineEdit*> fields = {
+        ui->Change_model_LineEdit,
+        ui->Change_vehicleType_LineEdit,
+        ui->Change_FuelType_LineEdit,
+        ui->Change_Transmission_LineEdit,
+        ui->Change_class_LineEdit,
+        ui->Change_specifications_LineEdit,
+        ui->Change_numPassengers_LineEdit,
+        ui->Change_price_LineEdit
+    };
+
+    for (auto* field : fields) {
+        connect(field, &QLineEdit::textChanged, this, [this]() {
+            ui->saveChanges_car_button->setEnabled(true);
+        });
+    }
+}
+
+void MainWindow::on_saveChanges_car_button_clicked()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE \"Cars\" "
+                  "SET \"model\" = :model, \"specifications\" = :specifications, \"class\" = :class, "
+                  "\"fuel\" = :fuel, \"transmission\" = :transmission, \"price\" = :price, "
+                  "\"type\" = :type, \"passengers\" = :passengers "
+                  "WHERE \"id_car\" = :id_car");
+
+    query.bindValue(":model", ui->Change_model_LineEdit->text());
+    query.bindValue(":specifications", ui->Change_specifications_LineEdit->text());
+    query.bindValue(":class", ui->Change_class_LineEdit->text());
+    query.bindValue(":fuel", ui->Change_FuelType_LineEdit->text());
+    query.bindValue(":transmission", ui->Change_Transmission_LineEdit->text());
+    query.bindValue(":price", ui->Change_price_LineEdit->text().toInt());
+    query.bindValue(":type", ui->Change_vehicleType_LineEdit->text());
+    query.bindValue(":passengers", ui->Change_numPassengers_LineEdit->text().toInt());
+    query.bindValue(":id_car", car_id_change);
+
+    if(query.exec()) {
+
+    }
 }
