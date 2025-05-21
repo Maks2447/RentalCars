@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mainStyle.css</file>
+        <file>registrDialog.css</file>
+    </qresource>
+</RCC>

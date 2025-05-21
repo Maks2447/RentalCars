@@ -1,0 +1,37 @@
+#this {
+    background-color: #212121;
+}
+
+#this * {
+    background-color: #212121;
+}
+
+#acceptButton {
+    font-size: 14px;
+    color: black;
+    background-color: #f3c705;
+}
+
+#acceptButton:hover {
+    background-color: #d6af00;
+
+}
+
+#changeButton {
+    font-size: 14px;
+    color: white;
+    background-color: #212121;
+    border: none;
+}
+
+#changeButton:hover {
+    color: gray;
+}
+
+#stackedWidget QLineEdit{
+    background-color: #212121;
+    border: 1px solid #D3D3D3;
+    font-size: 15px;
+    padding-left: 8px;
+    color: #D3D3D3;
+}

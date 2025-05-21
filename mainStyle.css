@@ -1,0 +1,149 @@
+#this *{
+    font-family: "Georgia";
+    color: #D3D3D3;
+    background-color: #212121;
+}
+
+#container {
+    background-color: #212121;
+    border: none;
+}
+
+#childWdg {
+    background-color: #212121;
+    border: 2px solid #b8b8b8;
+    color: #D3D3D3;
+}
+
+#scroll {
+    border: none;
+}
+
+#model {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#descr {
+    font-size: 13px;
+    color: gray;
+}
+
+#gearbox {
+    font-size: 15px;
+}
+
+#fuel {
+    font-size: 15px;
+}
+
+#passengers {
+    font-size: 15px;
+}
+
+#carType {
+    font-size: 15px;
+}
+
+#price {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+#LoginButton {
+    font-size: 18px;
+    border: none;
+    text-align: right;
+
+}
+#LoginButton::menu-indicator {
+    image: none;
+}
+
+#LoginButton:hover {
+    color: gray;
+}
+
+#emptySearchWdg {
+    background-color: #ff6a00;
+    border-radius: 7px;
+}
+#emptySearchWdg * {
+    background-color: #ff6a00;
+    color: black;
+}
+
+#emptyLabelTitle{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#emptyLabel {
+    font-size: 14px;
+}
+
+#resetFilters {
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 15px;
+    border: none;
+}
+
+#resetFilters:hover{
+    color: gray;
+    border-bottom: 0.5px solid gray;
+}
+
+#setFilters {
+    font-size: 16px;
+    background-color: #ff7b00;
+    color: white;
+    border-radius: 1px;
+}
+
+#setFilters:hover {
+    background-color: #de7718;
+}
+
+#setFilters:pressed {
+    background-color: #cf7019;
+    color: #bababa;
+}
+
+#carClass {
+    font-size: 14px;
+    font-weight: 700;
+    background-color: #ff8819;
+    color: black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#orderButton {
+    font-size: 16px;
+    color: white;
+    border-radius: 3px;
+    background-color: #ff8819;
+}
+#orderButton:hover {
+    background-color: #f08018;
+}
+#orderButton:pressed {
+    background-color: #de7616;
+    color: #bababa;
+}
+
+#OrderPage QLineEdit {
+    font-size: 18px;
+    padding-left: 8px;
+}
+
+#calendar {
+    background-color: orange;
+    font-size: 30px;
+}
+
+#widgetCardBookings *{
+    color: white;
+    font-size: 17px;
+}
