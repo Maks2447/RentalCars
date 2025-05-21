@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Home_timePick_end->setMenu(timePick_endMenu);
 
     loadCars("");
-    //setData(currentUser);
+    setData(currentUser);
     applyStyleSheet();
     set_validator();
 
@@ -1497,7 +1497,6 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
                 loadCars("");
             }
         });
-
         layoutCard->addWidget(photo, 0,0, 3, 1);
         layoutCard->addWidget(model, 0,1);
         layoutCard->addWidget(specifications, 1,1);
