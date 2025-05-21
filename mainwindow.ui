@@ -45,7 +45,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0" columnstretch="0,1,9" rowminimumheight="10,0,0">
@@ -3117,19 +3117,6 @@ QPushButton:disabled {
                    </property>
                    <property name="text">
                     <string>Last name</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="pushButton">
-                   <property name="geometry">
-                    <rect>
-                     <x>340</x>
-                     <y>260</y>
-                     <width>171</width>
-                     <height>51</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>PushButton</string>
                    </property>
                   </widget>
                  </widget>

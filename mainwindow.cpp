@@ -1509,18 +1509,3 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
     }
     ui->verticalLayout_24->addStretch();
 }
-
-
-
-void MainWindow::on_pushButton_clicked()
-{
-    if(isLogin) {
-        return;
-    }
-
-    RegistrDialog RegistrForm(this);
-
-    RegistrForm.setFixedSize(500, 500);
-    RegistrForm.exec();
-}
-

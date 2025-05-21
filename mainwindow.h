@@ -84,8 +84,6 @@ private slots:
 
     void on_plus_upload_Photo_button_clicked();
 
-    void on_pushButton_clicked();
-
 private:
     Ui::MainWindow *ui;
 
