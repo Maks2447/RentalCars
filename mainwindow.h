@@ -90,6 +90,8 @@ private slots:
 
     void create_unverified_orders_widgets();
 
+    void verificate_car_button(const QVector<QString> &car);
+
 private:
     Ui::MainWindow *ui;
 

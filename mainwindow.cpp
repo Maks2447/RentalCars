@@ -597,7 +597,7 @@ void MainWindow::setData(const UserData &user)
     int indexManagement = ui->ProfilePage_mainTabWidget->indexOf(ui->Profile_car_management);
     if (indexManagement != -1) {
         ui->ProfilePage_mainTabWidget->setTabVisible(indexManagement, false);
-        //currentUser.id_user = 1 ; //!!!!!!!!!!!!!!!!
+        currentUser.id_user = 1 ; //!!!!!!!!!!!!!!!!
         if(currentUser.id_user == 1) {
             ui->ProfilePage_mainTabWidget->setTabVisible(indexManagement, true);
         }
@@ -611,6 +611,10 @@ void MainWindow::setData(const UserData &user)
         }
     }
 
+    int indexPoints = ui->CarChecking_TabWidget->indexOf(ui->CarChecking_points_tab);
+    if (indexPoints != -1) {
+        ui->CarChecking_TabWidget->setTabVisible(indexPoints, false);
+    }
 
     int indexInfo = ui->CarManagement_TabWidget->indexOf(ui->ChangeInfo_tab);
     if (indexInfo != -1) {
@@ -906,7 +910,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::FocusIn) {
             lineEdit->setStyleSheet("color: orange;");
         } else if (event->type() == QEvent::FocusOut) {
-            lineEdit->setStyleSheet("color: white;");  // Вернуть к обычному
+            lineEdit->setStyleSheet("color: white;");
         }
     }
     return false;
@@ -1645,6 +1649,9 @@ void MainWindow::create_unverified_orders_widgets()
                 "QPushButton#verificationButton:pressed {"
                 "    background-color: #2b2b2b;"
                 "}");
+            connect(verification_button, &QPushButton::clicked, this, [=]() {
+                verificate_car_button(car);
+            });
 
             layoutCard->addWidget(photo, 0,0, 3, 1);
             layoutCard->addWidget(model, 0,1);
@@ -1657,4 +1664,9 @@ void MainWindow::create_unverified_orders_widgets()
         }
         ui->verticalLayout_28->addStretch();
     }
+}
+
+void MainWindow::verificate_car_button(const QVector<QString> &car)
+{
+    ui->CarChecking_TabWidget->setTabVisible(1, true);
 }
