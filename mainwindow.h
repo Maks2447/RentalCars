@@ -88,6 +88,8 @@ private slots:
 
     void on_saveChanges_car_button_clicked();
 
+    void create_unverified_orders_widgets();
+
 private:
     Ui::MainWindow *ui;
 

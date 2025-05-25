@@ -594,21 +594,30 @@ void MainWindow::setData(const UserData &user)
 
     ui->plus_upload_Photo_button->setIcon(QIcon("C:/Users/golov/Downloads/orange-plus-11974.png"));
 
-    int indexMain = ui->ProfilePage_mainTabWidget->indexOf(ui->tab);
-    if (indexMain != -1) {
-        ui->ProfilePage_mainTabWidget->setTabVisible(indexMain, false);
+    int indexManagement = ui->ProfilePage_mainTabWidget->indexOf(ui->Profile_car_management);
+    if (indexManagement != -1) {
+        ui->ProfilePage_mainTabWidget->setTabVisible(indexManagement, false);
+        //currentUser.id_user = 1 ; //!!!!!!!!!!!!!!!!
+        if(currentUser.id_user == 1) {
+            ui->ProfilePage_mainTabWidget->setTabVisible(indexManagement, true);
+        }
     }
 
-    //!!!!!!!!!!!!!!!!
-    //currentUser.id_user = 1 ;
-    if(currentUser.id_user == 1) {
-        ui->ProfilePage_mainTabWidget->setTabVisible(indexMain, true);
+    int indexCondition = ui->ProfilePage_mainTabWidget->indexOf(ui->Profile_machine_condition);
+    if (indexCondition != -1) {
+        ui->ProfilePage_mainTabWidget->setTabVisible(indexCondition, false);
+        if(currentUser.id_user == 1) {
+            ui->ProfilePage_mainTabWidget->setTabVisible(indexCondition, true);
+        }
     }
+
 
     int indexInfo = ui->CarManagement_TabWidget->indexOf(ui->ChangeInfo_tab);
     if (indexInfo != -1) {
         ui->CarManagement_TabWidget->setTabVisible(indexInfo, false);
     }
+
+    create_unverified_orders_widgets();
 
 }
 
@@ -842,7 +851,7 @@ void MainWindow::resetFilters_clicked()
     }
 
     clearCars(layout);
-    loadCars("");
+    on_Home_search_pushButton_clicked();
 }
 
 void MainWindow::on_setFilters_pushButton_clicked()
@@ -922,6 +931,7 @@ void MainWindow::on_Home_DayTo_pushButton_clicked()
 
 void MainWindow::on_Order_button_clicked()
 {
+
     bool isEmpty = false;
     QSqlQuery query;
 
@@ -938,7 +948,6 @@ void MainWindow::on_Order_button_clicked()
         }
     }
 
-
     if(!ui->Order_age_checkBox->isChecked()) {
         ui->Order_age_checkBox->setStyleSheet(oldStyle + "QCheckBox {color: red;}");
         return;
@@ -948,13 +957,20 @@ void MainWindow::on_Order_button_clicked()
 
     if(isEmpty) return;
 
+    QString total_sum = ui->Order_price_label->text();
+    if(total_sum.startsWith("$")) {
+        total_sum.remove(0,1);
+    }
+
+
     if(isLogin) {
-        query.prepare("INSERT INTO \"Orders\" (\"user_id\", \"car_id\", \"start_date\", \"end_date\")"
-                      "VALUES(:user_id, :car_id, :start_date, :end_date)");
+        query.prepare("INSERT INTO \"Orders\" (\"user_id\", \"car_id\", \"start_date\", \"end_date\", \"total_sum\")"
+                      "VALUES(:user_id, :car_id, :start_date, :end_date, :total_sum)");
         query.bindValue(":user_id", currentUser.id_user);
         query.bindValue(":car_id", car_id);
         query.bindValue(":start_date", start_date);
         query.bindValue(":end_date", end_date);
+        query.bindValue(":total_sum", total_sum.toInt());
         query.exec();
 
     } else {
@@ -963,8 +979,8 @@ void MainWindow::on_Order_button_clicked()
         QString email = ui->Order_email_lineEdit->text();
         QString phone = ui->Order_phone_lineEdit->text();
 
-        query.prepare("INSERT INTO \"Orders\" (\"name\", \"surname\", \"email\", \"phone\", \"car_id\", \"start_date\", \"end_date\")"
-                      "VALUES(:name, :surname, :email, :phone, :car_id, :start_date, :end_date)");
+        query.prepare("INSERT INTO \"Orders\" (\"name\", \"surname\", \"email\", \"phone\", \"car_id\", \"start_date\", \"end_date\", \"total_sum\")"
+                      "VALUES(:name, :surname, :email, :phone, :car_id, :start_date, :end_date, :total_sum)");
         query.bindValue(":name", name);
         query.bindValue(":surname", lastName);
         query.bindValue(":email", email);
@@ -972,6 +988,7 @@ void MainWindow::on_Order_button_clicked()
         query.bindValue(":car_id", car_id);
         query.bindValue(":start_date", start_date);
         query.bindValue(":end_date", end_date);
+        query.bindValue(":total_sum", total_sum.toInt());
         qDebug() << start_date;
         qDebug() << end_date;
 
@@ -1401,7 +1418,7 @@ void MainWindow::on_add_new_car_button_clicked()
 
     ui->add_new_car_button->setEnabled(false);
 
-    loadCars("");
+    on_Home_search_pushButton_clicked();
     delete_car_Tab();
 }
 
@@ -1483,8 +1500,7 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
             "}"
             "QPushButton#changeButton:pressed {"
             "    background-color: #c45f00;"
-            "}"
-            );
+            "}");
         connect(change_button, &QPushButton::clicked, this, [=]() {
             change_car_info(car);
         });
@@ -1575,6 +1591,70 @@ void MainWindow::on_saveChanges_car_button_clicked()
     query.bindValue(":id_car", car_id_change);
 
     if(query.exec()) {
+        on_Home_search_pushButton_clicked();
+        delete_car_Tab();
+    }
+}
 
+void MainWindow::create_unverified_orders_widgets()
+{
+    QVector<QPair<QVector<QString>, QPixmap>> order = db.unverified_orders();
+
+    if(!order.isEmpty()) {
+        for(int i = 0; i < order.size(); ++i) {
+            const QVector<QString> &car = order[i].first;
+            const QPixmap &photoPixmap = order[i].second;
+
+            QWidget *widgetCard = new QWidget(this);
+            widgetCard->setFixedSize(610, 140);
+            ui->verticalLayout_28->addWidget(widgetCard);
+
+            QGridLayout *layoutCard = new QGridLayout(widgetCard);
+            widgetCard->setLayout(layoutCard);
+            layoutCard->setContentsMargins(20,20,20,20);
+            layoutCard->setHorizontalSpacing(30);
+
+            QLabel *photo = new QLabel(widgetCard);
+
+            photo->setPixmap(roundedPixmap(photoPixmap, 300, 210));
+            photo->setFixedSize(150,100);
+            photo->setScaledContents(true);
+
+            QLabel *model = new QLabel(car[3], widgetCard);
+            model->setStyleSheet("font-weight: 600; font-size: 18px; padding-bottom: 5px;");
+            QLabel *dateOfBooking = new QLabel(car[1] + " - " + car[2], widgetCard);
+            dateOfBooking->setStyleSheet("padding-bottom: 8px;");
+
+            QLabel *status = new QLabel("Awaiting verification", widgetCard);
+            status->setStyleSheet("font-weight: 500; font-size: 18px;");
+
+            QPushButton *verification_button = new QPushButton("Verificate", widgetCard);
+            verification_button->setFixedSize(135, 35);
+            verification_button->setObjectName("verificationButton");
+            verification_button->setStyleSheet(
+                "QPushButton#verificationButton {"
+                "    background-color: #404040;"
+                "    color: white;"
+                "    border: none;"
+                "    font-size: 20px;"
+                "    border-radius: 6px;"
+                "}"
+                "QPushButton#verificationButton:hover {"
+                "    background-color: #3b3b3b;"
+                "}"
+                "QPushButton#verificationButton:pressed {"
+                "    background-color: #2b2b2b;"
+                "}");
+
+            layoutCard->addWidget(photo, 0,0, 3, 1);
+            layoutCard->addWidget(model, 0,1);
+            layoutCard->addWidget(dateOfBooking, 1,1);
+            layoutCard->addWidget(status, 0,2, Qt::AlignRight);
+            layoutCard->addWidget(verification_button, 2,2, Qt::AlignRight);
+
+            widgetCard->setObjectName("widgetCardBookings");
+            widgetCard->setStyleSheet("background-color: #1a1a1a;");
+        }
+        ui->verticalLayout_28->addStretch();
     }
 }

@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QByteArray>
 #include <QSqlError>
+#include <QDate>
 
 Database::Database() {
 
@@ -106,4 +107,42 @@ void Database::deleteCar(const QString &id_car)
     query.bindValue(":id_car", id_car);
 
     query.exec();
+}
+
+QVector<QPair<QVector<QString>, QPixmap>> Database::unverified_orders()
+{
+    QSqlQuery query;
+    QDate currentDate = QDate::currentDate();
+    qDebug() << currentDate;
+    query.prepare("SELECT \"Orders\".\"id_order\", \"Orders\".\"start_date\", \"Orders\".\"end_date\", \"Cars\".\"photo\", \"Cars\".\"model\" "
+                  "FROM \"Orders\" "
+                  "JOIN \"Cars\" ON \"Orders\".\"car_id\" = \"Cars\".\"id_car\" "
+                  "WHERE \"Orders\".\"end_date\" < :currentDate "
+                  "AND \"Orders\".\"checked\" = false ");
+    query.bindValue(":currentDate", currentDate);
+
+    QVector<QPair<QVector<QString>, QPixmap>> ordersList;
+
+    if(query.exec()) {
+        while(query.next()) {
+            QVector<QString> car;
+
+            car.append(query.value("id_order").toString());
+            car.append(query.value("start_date").toDate().toString("dd MMM"));
+            car.append(query.value("end_date").toDate().toString("dd MMM"));
+            car.append(query.value("model").toString());
+
+            QPixmap pixmap;
+            QByteArray photoData = query.value("photo").toByteArray();
+
+            if(!photoData.isEmpty()) {
+                pixmap.loadFromData(photoData);
+            }
+
+            ordersList.append(qMakePair(car, pixmap));
+
+            qDebug() << car;
+        }
+    }
+    return ordersList;
 }

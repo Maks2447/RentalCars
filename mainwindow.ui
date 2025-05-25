@@ -756,7 +756,7 @@ QGroupBox::title {
 	padding: 0px 4px;
 }
 QGroupBox QCheckBox {
-    font-size: 11pt;
+    font-size: 12pt;
 }
 
 QCheckBox::indicator {
@@ -805,7 +805,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -823,7 +823,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -841,7 +841,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -868,7 +868,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -886,7 +886,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -907,7 +907,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -928,7 +928,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -946,7 +946,7 @@ QCheckBox::indicator:checked {
                        <property name="font">
                         <font>
                          <family>Georgia</family>
-                         <pointsize>11</pointsize>
+                         <pointsize>12</pointsize>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -990,7 +990,7 @@ QGroupBox::title {
 	padding: 0px 4px;
 }
 QGroupBox QCheckBox {
-    font-size: 11pt;
+    font-size: 12pt;
 }
 
 QCheckBox::indicator {
@@ -1007,8 +1007,8 @@ QCheckBox::indicator:pressed {
 }
 
 QCheckBox::indicator:checked {
-    background: #0060d6;
-	border: 1px solid #0060d6;
+    background: orange;
+	border: 1px solid orange;
 	image: url(&quot;C:/Users/golov/Downloads/icons8-галочка-50.png&quot;);
 }</string>
                     </property>
@@ -1075,7 +1075,7 @@ QGroupBox::title {
 	padding: 0px 4px;
 }
 QGroupBox QCheckBox {    
-	font-size: 11pt;
+	font-size: 12pt;
 }
 
 QCheckBox::indicator {
@@ -1092,8 +1092,8 @@ QCheckBox::indicator:pressed {
 }
 
 QCheckBox::indicator:checked {
-    background: #0060d6;
-	border: 1px solid #0060d6;
+    background: orange;
+	border: 1px solid orange;
 	image: url(&quot;C:/Users/golov/Downloads/icons8-галочка-50.png&quot;);
 }</string>
                     </property>
@@ -1161,7 +1161,7 @@ QGroupBox::title {
 	padding: 0px 4px;
 }
 QGroupBox QCheckBox {    
-	font-size: 11pt;
+	font-size: 12pt;
 }
 
 QCheckBox::indicator {
@@ -1178,8 +1178,8 @@ QCheckBox::indicator:pressed {
 }
 
 QCheckBox::indicator:checked {
-    background: #0060d6;
-	border: 1px solid #0060d6;
+    background: orange;
+	border: 1px solid orange;
 	image: url(&quot;C:/Users/golov/Downloads/icons8-галочка-50.png&quot;);
 }</string>
                     </property>
@@ -1246,7 +1246,7 @@ QGroupBox::title {
 	padding: 0px 4px;
 }
 QGroupBox QCheckBox {    
-	font-size: 11pt;
+	font-size: 12pt;
 }
 
 QCheckBox::indicator {
@@ -1263,8 +1263,8 @@ QCheckBox::indicator:pressed {
 }
 
 QCheckBox::indicator:checked {
-    background: #0060d6;
-	border: 1px solid #0060d6;
+    background: orange;
+	border: 1px solid orange;
 	image: url(&quot;C:/Users/golov/Downloads/icons8-галочка-50.png&quot;);
 }</string>
                     </property>
@@ -2714,6 +2714,7 @@ QTabBar::tab {
     background-color: #121212;
     color: white;
     padding: 10px 10px;
+	margin-left: 15px;
     border: none;
 }
 
@@ -2734,12 +2735,8 @@ QTabWidget::pane *{
 
 QTabBar::tab:first {
 	margin-left: 60px;    
-	margin-right: 13px;
 }
 
-QTabBar::tab:last {
-	margin-left: 15px; 
-}
 QTabWidget::pane {
     background-color: #212121;
 }</string>
@@ -2845,8 +2842,8 @@ QTabWidget::pane {
                           <rect>
                            <x>0</x>
                            <y>0</y>
-                           <width>78</width>
-                           <height>35</height>
+                           <width>1062</width>
+                           <height>648</height>
                           </rect>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2892,7 +2889,7 @@ QTabWidget::pane {
                            <x>0</x>
                            <y>0</y>
                            <width>1062</width>
-                           <height>628</height>
+                           <height>648</height>
                           </rect>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -3224,7 +3221,7 @@ QPushButton:disabled {
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab">
+             <widget class="QWidget" name="Profile_car_management">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -3247,7 +3244,7 @@ QPushButton:disabled {
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_20" stretch="1,8">
                <property name="spacing">
-                <number>0</number>
+                <number>5</number>
                </property>
                <property name="leftMargin">
                 <number>71</number>
@@ -3318,7 +3315,7 @@ QLineEdit {
 }</string>
                  </property>
                  <property name="currentIndex">
-                  <number>2</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="AddNewCar_Tab">
                   <property name="styleSheet">
@@ -3365,7 +3362,7 @@ QLineEdit {
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-37</y>
+                        <y>0</y>
                         <width>1073</width>
                         <height>641</height>
                        </rect>
@@ -3751,7 +3748,7 @@ QPushButton:disabled {
                         <x>0</x>
                         <y>0</y>
                         <width>1090</width>
-                        <height>593</height>
+                        <height>590</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_24">
@@ -3786,6 +3783,7 @@ QPushButton:disabled {
 QLineEdit {
 	min-width: 260px;
     max-width: 290px;
+
 	margin-bottom: 15px;
 }</string>
                   </property>
@@ -3794,7 +3792,7 @@ QLineEdit {
                   </attribute>
                   <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0,0">
                    <property name="spacing">
-                    <number>0</number>
+                    <number>5</number>
                    </property>
                    <property name="leftMargin">
                     <number>0</number>
@@ -3806,12 +3804,12 @@ QLineEdit {
                     <number>10</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>130</number>
+                    <number>65</number>
                    </property>
                    <item>
                     <layout class="QFormLayout" name="formLayout_3">
                      <property name="horizontalSpacing">
-                      <number>25</number>
+                      <number>35</number>
                      </property>
                      <property name="verticalSpacing">
                       <number>5</number>
@@ -3945,6 +3943,155 @@ QPushButton:disabled {
                     </widget>
                    </item>
                   </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="Profile_machine_condition">
+              <property name="styleSheet">
+               <string notr="true">#Profile_machine_condition {
+	background-color: #212121;
+}</string>
+              </property>
+              <attribute name="title">
+               <string>Car checking</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_26" stretch="1,8">
+               <property name="spacing">
+                <number>5</number>
+               </property>
+               <property name="leftMargin">
+                <number>71</number>
+               </property>
+               <property name="topMargin">
+                <number>15</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="Unverified_Orders_label">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>82</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>82</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>22</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #212121;</string>
+                 </property>
+                 <property name="text">
+                  <string>Unverified orders</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTabWidget" name="CarChecking_TabWidget">
+                 <property name="styleSheet">
+                  <string notr="true">QTabBar {
+    background-color: #212121;
+    font-size: 18px; 
+    border: none;
+}
+
+QTabBar::tab {
+    background-color: #212121;
+    color: white;
+    padding: 10px 10px;
+	margin-left: 15px;
+    border: none;
+}
+
+QTabBar::tab:first {
+	margin-left: 0px;    
+}
+
+QTabBar::tab:selected {
+    background-color: #212121; /* Цвет фона для активной вкладки */
+    color: white;              /* Цвет текста для активной вкладки */
+    border-bottom: 2px solid orange; /* Граница снизу активной вкладки */
+}
+
+QTabWidget::pane {
+	border: none;
+}
+
+QTabWidget::pane *{
+	background-color: #212121;
+}
+
+QTabWidget::pane {
+    background-color: #212121;
+}
+</string>
+                 </property>
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <widget class="QWidget" name="CarChecking_orders_tab">
+                  <attribute name="title">
+                   <string>Orders</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_27">
+                   <item>
+                    <widget class="QScrollArea" name="CarChecking_orders_scrollArea">
+                     <property name="styleSheet">
+                      <string notr="true">border: none;</string>
+                     </property>
+                     <property name="widgetResizable">
+                      <bool>true</bool>
+                     </property>
+                     <widget class="QWidget" name="scrollAreaWidgetContents_7">
+                      <property name="geometry">
+                       <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>1068</width>
+                        <height>603</height>
+                       </rect>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_28">
+                       <property name="spacing">
+                        <number>20</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                      </layout>
+                     </widget>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="CarChecking_points_tab">
+                  <attribute name="title">
+                   <string>Check points</string>
+                  </attribute>
                  </widget>
                 </widget>
                </item>

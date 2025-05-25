@@ -22,6 +22,8 @@ public:
 
     void deleteCar(const QString &id_car);
 
+    QVector<QPair<QVector<QString>, QPixmap>> unverified_orders();
+
 private:
     QSqlDatabase db;
 };
