@@ -10,6 +10,15 @@ struct UserData {
     QString email;
     QString phone;
     QString password;
+
+    void clear() {
+        id_user = 0;
+        name.clear();
+        surname.clear();
+        email.clear();
+        phone.clear();
+        password.clear();
+    }
 };
 
 #endif // USERDATA_H

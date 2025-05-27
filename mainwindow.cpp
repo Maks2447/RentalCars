@@ -90,7 +90,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Home_timePick_start->setMenu(timePick_startMenu);
     ui->Home_timePick_end->setMenu(timePick_endMenu);
 
-    loadCars("");
     setData(currentUser);
     applyStyleSheet();
     set_validator();
@@ -367,7 +366,7 @@ void MainWindow::loadCars(QString queryStr)
 
         QWidget *childWdg = new QWidget(container);
 
-        QGridLayout * childLayout = new QGridLayout(childWdg);
+        QGridLayout *childLayout = new QGridLayout(childWdg);
         QSpacerItem *spacerTop = new QSpacerItem(0, 10);
         QSpacerItem *spacerLower = new QSpacerItem(0, 290);
 
@@ -380,10 +379,18 @@ void MainWindow::loadCars(QString queryStr)
         QLabel *carClass = new QLabel(car[2], childWdg);
 
         QFontMetrics fm(carClass->font());
-        int textWidth = fm.horizontalAdvance(car[2]);
+        QRect textRect = fm.boundingRect(car[2]);
+        int textWidth = textRect.width();
 
-        carClass->setMinimumWidth(textWidth + 37);
-        carClass->setMaximumWidth(textWidth + 37);
+        if(carClass->text() == "Sport") {
+            carClass->setMinimumWidth(textWidth + 25);
+            carClass->setMaximumWidth(textWidth + 25);
+        } else {
+            carClass->setMinimumWidth(textWidth + 42);
+            carClass->setMaximumWidth(textWidth + 42);
+        }
+
+        carClass->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 
         QLabel *fuel = new QLabel("<img src='" + iconGas + "' style='vertical-align: bottom;' width='20' height='20'> " + car[3], childWdg);
         QLabel *gearbox = new QLabel("<img src='" + iconTransm + "' style='vertical-align: bottom;' width='20' height='20'> " + car[4], childWdg);
@@ -401,14 +408,14 @@ void MainWindow::loadCars(QString queryStr)
             orderCarShow(car, photoPixmap);
         });
 
-        QLabel *space = new QLabel("", childWdg);
+        //QLabel *space = new QLabel("", childWdg);
         //>>
 
         //Adding widgets in grid(positions)
         childLayout->addWidget(photo, 0,0, 7,1, Qt::AlignLeft);
         childLayout->addWidget(model, 0,1, 1,2);
         childLayout->addWidget(descr, 1,1, 1,2, Qt::AlignTop);
-        childLayout->addItem(spacerTop, 2, 1);
+        childLayout->addItem(spacerTop, 2,1);
         childLayout->addWidget(carClass, 3,1);
         childLayout->addWidget(gearbox, 4,1, Qt::AlignBottom);
         childLayout->addWidget(fuel, 5,1);
@@ -419,7 +426,7 @@ void MainWindow::loadCars(QString queryStr)
 
         childLayout->addWidget(price, 0,3, Qt::AlignRight);
         childLayout->addWidget(orderButton, 6,3, Qt::AlignRight);
-        childLayout->addWidget(space, 5,3);
+        //childLayout->addWidget(space, 5,3);
         //>>
 
         //Set picture
@@ -430,7 +437,7 @@ void MainWindow::loadCars(QString queryStr)
         childLayout->setColumnMinimumWidth(1, 106);
         //>>
 
-        space->setFixedWidth(480);
+        //space->setFixedWidth(480);
         //Relative(относительный) distance between rows
         childLayout->setRowStretch(0, 0);
         childLayout->setRowStretch(1, 0);
@@ -516,26 +523,11 @@ void MainWindow::setData(const UserData &user)
     account->setIcon(QIcon("C:/Users/golov/Downloads/icons8-руль-24.png"));
 
     menu->addSeparator();
-    QAction *logout = menu->addAction("logout");
+    QAction *logoutAction = menu->addAction("logout");
 
     connect(bookings, &QAction::triggered, this, [=](){
         ui->stackedWidget->setCurrentWidget(ui->ProfilePage);
         ui->ProfilePage_mainTabWidget->setCurrentWidget(ui->Profile_Booking_Tab);
-    });
-
-    QTabBar *tabBar = ui->Booking_innerTab->tabBar();
-
-    int index = ui->Booking_innerTab->insertTab(0,new QWidget(), "My bookings");
-    ui->Booking_innerTab->setTabEnabled(index, false);
-    ui->Booking_innerTab->setCurrentIndex(1);
-    tabBar->setStyleSheet("QTabBar::tab:first {background: transparent; color: white; font: 32px; margin-top: -5px; padding-top: -0px; padding-right: 15px; padding-left: -35px;}");
-
-    connect(tabBar, &QTabBar::currentChanged, this, [=](int index){
-        if (index == 1) {
-            ui->Booking_innerTab->setCurrentIndex(1);
-        } else {
-            ui->Booking_innerTab->setCurrentIndex(2);
-        }
     });
 
     connect(account, &QAction::triggered, this, [=](){
@@ -543,8 +535,8 @@ void MainWindow::setData(const UserData &user)
         ui->ProfilePage_mainTabWidget->setCurrentWidget(ui->Profile_account_Tab);
     });
 
-    connect(logout, &QAction::triggered, this, [=](){
-        QMessageBox::information(this, "Заказы", "Показать заказы");
+    connect(logoutAction, &QAction::triggered, this, [=](){
+        logout();
     });
     menu->setMinimumWidth(loginButtonWidth);
 
@@ -586,6 +578,21 @@ void MainWindow::setData(const UserData &user)
         "   margin: 5px 0;"
         "}"
         );
+
+    QTabBar *tabBar = ui->Booking_innerTab->tabBar();
+
+    int index = ui->Booking_innerTab->insertTab(0,new QWidget(), "My bookings");
+    ui->Booking_innerTab->setTabEnabled(index, false);
+    ui->Booking_innerTab->setCurrentIndex(1);
+    tabBar->setStyleSheet("QTabBar::tab:first {background: transparent; color: white; font: 32px; margin-top: -5px; padding-top: -0px; padding-right: 15px; padding-left: -35px;}");
+
+    connect(tabBar, &QTabBar::currentChanged, this, [=](int index){
+        if (index == 1) {
+            ui->Booking_innerTab->setCurrentIndex(1);
+        } else {
+            ui->Booking_innerTab->setCurrentIndex(2);
+        }
+    });
 
 
     show_active_orders();
@@ -673,6 +680,16 @@ void MainWindow::orderCarShow(const QVector<QString>& carData, const QPixmap &ph
 
 void MainWindow::Home_search_pushButton_clicked(QString query)
 {
+    if(isFiltr == false) {
+        const auto &checkbox = ui->widget->findChildren<QCheckBox*>();
+        for(QCheckBox *checkbox : checkbox) {
+            if (checkbox->isChecked()) {
+                checkbox->setChecked(false);
+            }
+        }
+    }
+    isFiltr = false;
+
     start_date = calendar_start_date;
     end_date = calendar_end_date;
     timePick_start = ui->Home_timePick_start->text();
@@ -691,7 +708,7 @@ void MainWindow::Home_search_pushButton_clicked(QString query)
     }
 
     loadCars(queryStr);
-    qDebug() << queryStr;
+
 }
 
 QPixmap MainWindow::roundedPixmap(const QPixmap photoPixmap, int width, int height)
@@ -725,6 +742,33 @@ void MainWindow::on_LoginButton_clicked()
 
     RegistrForm.setFixedSize(500, 500);
     RegistrForm.exec();
+}
+
+void MainWindow::logout()
+{
+    isLogin = false;
+    ui->LoginButton->setText("Sign in | Register");
+    currentUser.clear();
+    qDebug() << currentUser.name;
+
+    disconnect(ui->LoginButton, nullptr, this, nullptr);
+    connect(ui->LoginButton, &QPushButton::clicked, this, &MainWindow::on_LoginButton_clicked);
+
+    QHBoxLayout *loginLayout = new QHBoxLayout(ui->LoginButton);
+    loginLayout->setContentsMargins(0, 0, 0, 0);
+
+    QLabel *loginIcon = new QLabel(ui->LoginButton);
+
+    loginLayout->addWidget(loginIcon, 0, Qt::AlignLeft);
+
+    ui->LoginButton->setLayout(loginLayout);
+
+    QPixmap pixmap("C:/Users/golov/Downloads/icons8-человек-30.png");
+    pixmap = pixmap.scaled(QSize(20,20),Qt::KeepAspectRatio);
+    loginIcon->setPixmap(pixmap);
+    loginIcon->setMaximumWidth(20);
+
+    //Исрпавить
 }
 
 
@@ -766,18 +810,15 @@ QString MainWindow::getFilters()
     QString queryStr = "AND (";
     QString queryDupl = queryStr + ")";
     QStringList generalCondition;
-    QString str;
 
     if(!selectModel.isEmpty()) {
         QStringList modelCondition;
         for (const QString &model : selectModel) {
             modelCondition.append(QString("model LIKE '%%1%'").arg(model));
         }
+        generalCondition += modelCondition.join(" OR ");
 
-        str += modelCondition.join(" OR ");
-        generalCondition += str;
-
-        qDebug() << generalCondition;
+        //qDebug() << generalCondition;
     }
 
     QStringList transCondition;
@@ -813,14 +854,14 @@ QString MainWindow::getFilters()
 
     if(!selectPassengers.isEmpty()) {
         QStringList passengersCondition;
-        for (const QString &passengers : selectPassengers) {
+        for (QString &passengers : selectPassengers) {
+            if(passengers == "7+") passengers = "7";
             passengersCondition.append(QString("passengers = %1").arg(passengers));
         }
+        generalCondition += passengersCondition.join(" OR ");
 
-        str += passengersCondition.join(" OR ");
-        generalCondition += str;
 
-        qDebug() << generalCondition;
+        //qDebug() << generalCondition;
     }
 
     if(!selectVehicleType.isEmpty()) {
@@ -828,11 +869,9 @@ QString MainWindow::getFilters()
         for (const QString &passengers : selectVehicleType) {
             VehicleTypeCondition.append(QString("type = '%1'").arg(passengers));
         }
+        generalCondition += VehicleTypeCondition.join(" OR ");
 
-        str += VehicleTypeCondition.join(" OR ");
-        generalCondition += str;
-
-        qDebug() << generalCondition;
+        //qDebug() << generalCondition;
     }
 
 
@@ -869,6 +908,7 @@ void MainWindow::resetFilters_clicked()
 
 void MainWindow::on_setFilters_pushButton_clicked()
 {
+    isFiltr = true;
     Home_search_pushButton_clicked(getFilters());
 }
 
@@ -1477,7 +1517,7 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
         const QPixmap &photoPixmap = carsList[i].second;
 
         QWidget *widgetCard = new QWidget(this);
-        widgetCard->setFixedSize(650, 140);
+        widgetCard->setFixedSize(680, 140);
         ui->verticalLayout_24->addWidget(widgetCard);
 
         QGridLayout *layoutCard = new QGridLayout(widgetCard);

@@ -34,6 +34,8 @@ private slots:
 
     void on_LoginButton_clicked();
 
+    void logout();
+
     void on_setFilters_pushButton_clicked();
 
     QString getFilters();
@@ -132,5 +134,7 @@ private:
     QLabel *isSuccessful;
 
     QString currentPhotoFilePath;
+
+    bool isFiltr;
 };
 #endif // MAINWINDOW_H
