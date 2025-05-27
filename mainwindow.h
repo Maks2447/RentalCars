@@ -56,7 +56,7 @@ private slots:
 
     void addRowsTime(QMenu &menu, QToolButton *name);
 
-    void on_Home_search_pushButton_clicked();
+    void Home_search_pushButton_clicked(QString query);
 
     void on_Order_button_clicked();
 
@@ -86,11 +86,15 @@ private slots:
 
     void change_car_info(const QVector<QString> &car);
 
+    void delete_car(const QVector<QString> &car, QWidget *widgetCard);
+
     void on_saveChanges_car_button_clicked();
 
     void create_unverified_orders_widgets();
 
     void verificate_car_button(const QVector<QString> &car);
+
+    void on_confirm_verification_button_clicked();
 
 private:
     Ui::MainWindow *ui;

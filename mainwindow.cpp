@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
 {    
     ui->setupUi(this);
 
+    setWindowTitle("MaxDrive");
+
     if (db.openDatabase()) {
         //qDebug() << "База данных открыта успешно!";
     }
@@ -149,12 +151,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->Account_innerTab, &QTabWidget::currentChanged, this, &MainWindow::changeCurrentTab);
 
-    on_Home_search_pushButton_clicked();
-
-
-
     this->showFullScreen();
     this->setFixedSize(this->size());
+
+    connect(ui->Home_search_pushButton, &QPushButton::clicked, this, [this]() {
+        Home_search_pushButton_clicked("");
+    });
+    Home_search_pushButton_clicked("");
 
 }
 
@@ -422,8 +425,8 @@ void MainWindow::loadCars(QString queryStr)
         //Set picture
         photo->setPixmap(photoPixmap);
         photo->setScaledContents(true);
-        photo->setFixedWidth(330);
-        childLayout->setColumnMinimumWidth(0, 338);
+        photo->setFixedWidth(300);
+        childLayout->setColumnMinimumWidth(0, 308);
         childLayout->setColumnMinimumWidth(1, 106);
         //>>
 
@@ -647,7 +650,7 @@ void MainWindow::orderCarShow(const QVector<QString>& carData, const QPixmap &ph
     ui->Order_return_data->setText(end_date.toString("ddd, MMM d, yyyy") + " | " + timePick_end);
 
     ui->stackedWidget->setCurrentWidget(ui->OrderPage);
-    qDebug() << currentUser.name;
+    //qDebug() << currentUser.name;
     if(isLogin) {
         ui->Order_name_lineEdit->setText(currentUser.name);
         ui->Order_lastName_lineEdit->setText(currentUser.surname);
@@ -668,21 +671,27 @@ void MainWindow::orderCarShow(const QVector<QString>& carData, const QPixmap &ph
                                             "<span style='font-size: 28px;'>"" $" + QString::number(price) + "</span>");
 }
 
-void MainWindow::on_Home_search_pushButton_clicked()
+void MainWindow::Home_search_pushButton_clicked(QString query)
 {
     start_date = calendar_start_date;
     end_date = calendar_end_date;
     timePick_start = ui->Home_timePick_start->text();
     timePick_end = ui->Home_timePick_end->text();
-    qDebug() << start_date << start_date <<  timePick_start << timePick_end;
+    qDebug() << start_date << end_date <<  timePick_start << timePick_end;
+
 
     QString queryStr = QString(
                            "SELECT * FROM \"Cars\" WHERE \"id_car\" NOT IN ("
                            "SELECT \"car_id\" FROM \"Orders\" "
                            "WHERE NOT ('%1' > \"end_date\" OR '%2' < \"start_date\"))"
+                           "AND \"is_deleted\" = false "
                            ).arg(start_date.toString("yyyy-MM-dd"), end_date.toString("yyyy-MM-dd"));
+    if(!query.isEmpty()) {
+        queryStr += query;
+    }
 
     loadCars(queryStr);
+    qDebug() << queryStr;
 }
 
 QPixmap MainWindow::roundedPixmap(const QPixmap photoPixmap, int width, int height)
@@ -754,7 +763,7 @@ QString MainWindow::getFilters()
         }
     }
 
-    QString queryStr = "SELECT * FROM \"Cars\" WHERE (";
+    QString queryStr = "AND (";
     QString queryDupl = queryStr + ")";
     QStringList generalCondition;
     QString str;
@@ -855,12 +864,12 @@ void MainWindow::resetFilters_clicked()
     }
 
     clearCars(layout);
-    on_Home_search_pushButton_clicked();
+    Home_search_pushButton_clicked("");
 }
 
 void MainWindow::on_setFilters_pushButton_clicked()
 {
-    loadCars(getFilters());
+    Home_search_pushButton_clicked(getFilters());
 }
 
 void MainWindow::on_Home_DayFrom_pushButton_clicked()
@@ -993,13 +1002,12 @@ void MainWindow::on_Order_button_clicked()
         query.bindValue(":start_date", start_date);
         query.bindValue(":end_date", end_date);
         query.bindValue(":total_sum", total_sum.toInt());
-        qDebug() << start_date;
-        qDebug() << end_date;
 
         query.exec();
     }
     show_active_orders();
     ui->stackedWidget->setCurrentWidget(ui->HomePage);
+    Home_search_pushButton_clicked("");
 }
 
 
@@ -1402,11 +1410,10 @@ void MainWindow::on_add_new_car_button_clicked()
     query.prepare("INSERT INTO \"Cars\" (\"photo\", \"model\", \"specifications\", \"class\", \"fuel\", \"transmission\", \"price\", \"type\", \"passengers\")"
                   "VALUES(:photo, :model, :specifications, :class, :fuel, :transmission, :price, :type, :passengers)");
 
-    bool status = true;
     query.bindValue(":photo", photoData);
     query.bindValue(":model", ui->Add_car_model_LineEdit->text());
     query.bindValue(":specifications", ui->Add_car_specifications_LineEdit->text());
-    query.bindValue(":class", status);
+    query.bindValue(":class", ui->Add_car_class_LineEdit->text());
     query.bindValue(":fuel", ui->Add_car_fuelType_LineEdit->text());
     query.bindValue(":transmission", ui->Add_car_transmisson_LineEdit->text());
     query.bindValue(":price", ui->Add_car_price_LineEdit->text());
@@ -1422,7 +1429,7 @@ void MainWindow::on_add_new_car_button_clicked()
 
     ui->add_new_car_button->setEnabled(false);
 
-    on_Home_search_pushButton_clicked();
+    Home_search_pushButton_clicked("");
     delete_car_Tab();
 }
 
@@ -1432,7 +1439,8 @@ void MainWindow::delete_car_Tab()
 
     QSqlQuery query;
     query.prepare("SELECT \"photo\", \"model\", \"specifications\", \"class\", \"fuel\", \"transmission\", \"price\", \"type\", \"passengers\", \"id_car\" "
-                  "FROM \"Cars\"");
+                  "FROM \"Cars\" "
+                  "WHERE \"is_deleted\" = false");
 
     QVector<QPair<QVector<QString>, QPixmap>> carsList;
 
@@ -1516,17 +1524,8 @@ void MainWindow::create_widget_delete_change(QVector<QPair<QVector<QString>, QPi
         delete_button->setStyleSheet("border: none; margin-bottom: 10px;");
 
         connect(delete_button, &QPushButton::clicked, this, [this, car, widgetCard]() {
-            QMessageBox::StandardButton reply;
-            reply = QMessageBox::question(this, "Deletion confirmation",
-                                          "Are you sure you want to delete this entry??",
-                                          QMessageBox::Yes | QMessageBox::No);
+            delete_car(car, widgetCard);
 
-            if (reply == QMessageBox::Yes) {
-                db.deleteCar(car[7]);
-                ui->verticalLayout_24->removeWidget(widgetCard);
-                widgetCard->deleteLater();
-                loadCars("");
-            }
         });
         layoutCard->addWidget(photo, 0,0, 3, 1);
         layoutCard->addWidget(model, 0,1);
@@ -1575,6 +1574,21 @@ void MainWindow::change_car_info(const QVector<QString> &car)
     }
 }
 
+void MainWindow::delete_car(const QVector<QString> &car, QWidget *widgetCard)
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Deletion confirmation",
+                                  "Are you sure you want to delete this entry??",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        db.deleteCar(car[8]);
+        ui->verticalLayout_24->removeWidget(widgetCard);
+        widgetCard->deleteLater();
+        Home_search_pushButton_clicked("");
+    }
+}
+
 void MainWindow::on_saveChanges_car_button_clicked()
 {
     QSqlQuery query;
@@ -1595,7 +1609,7 @@ void MainWindow::on_saveChanges_car_button_clicked()
     query.bindValue(":id_car", car_id_change);
 
     if(query.exec()) {
-        on_Home_search_pushButton_clicked();
+        Home_search_pushButton_clicked("");
         delete_car_Tab();
     }
 }
@@ -1610,7 +1624,7 @@ void MainWindow::create_unverified_orders_widgets()
             const QPixmap &photoPixmap = order[i].second;
 
             QWidget *widgetCard = new QWidget(this);
-            widgetCard->setFixedSize(610, 140);
+            widgetCard->setFixedSize(660, 140);
             ui->verticalLayout_28->addWidget(widgetCard);
 
             QGridLayout *layoutCard = new QGridLayout(widgetCard);
@@ -1669,4 +1683,24 @@ void MainWindow::create_unverified_orders_widgets()
 void MainWindow::verificate_car_button(const QVector<QString> &car)
 {
     ui->CarChecking_TabWidget->setTabVisible(1, true);
+    ui->CarChecking_TabWidget->setCurrentIndex(1);
+
+    ui->rental_date_label->setText("Rental date: " + car[1] + " - " + car[2]);
+    ui->client_name_label->setText("Client name: " + car[4] + " " + car[5]);
+    ui->car_model_label->setText("Car model: " + car[3]);
+    ui->client_email_label->setText("Client email: " + car[6]);
 }
+
+void MainWindow::on_confirm_verification_button_clicked()
+{
+
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO \"Car_condition\" (\"order_id\", \"isDents_check\", \"isScratches_check\", \"paintwork_check\", "
+                  "\"isCracks_check\", \"isEngine_correct\", \"isLights_correct\", \"isBrakingSystem_correct\", \"anyErrors\", "
+                  "\"fuelLevel\", \"isInterior_clean\", \"isSeats_clean\", \"anyOdors\", \"general_rating\")"
+                  "VALUES(:order_id, :isDents_check, :isScratches_check, :paintwork_check, :isCracks_check, :isEngine_correct, :isLights_correct, "
+                  ":isBrakingSystem_correct, :anyErrors, :fuelLevel, :isInterior_clean, :isSeats_clean, :anyOdors, :general_rating)");
+    query.exec();
+}
+

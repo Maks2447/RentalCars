@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1161</width>
+    <width>1168</width>
     <height>950</height>
    </rect>
   </property>
@@ -110,6 +110,7 @@
             <widget class="QLabel" name="label">
              <property name="styleSheet">
               <string notr="true">border: none;
+padding-top: 5px;
 
 
 
@@ -1422,7 +1423,7 @@ QCheckBox::indicator:checked {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>767</width>
+                <width>774</width>
                 <height>872</height>
                </rect>
               </property>
@@ -1554,7 +1555,7 @@ QCheckBox::indicator:checked {
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>706</width>
+                   <width>713</width>
                    <height>1114</height>
                   </rect>
                  </property>
@@ -2742,7 +2743,7 @@ QTabWidget::pane {
 }</string>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="Profile_Booking_Tab">
               <property name="styleSheet">
@@ -2842,8 +2843,8 @@ QTabWidget::pane {
                           <rect>
                            <x>0</x>
                            <y>0</y>
-                           <width>1062</width>
-                           <height>648</height>
+                           <width>78</width>
+                           <height>35</height>
                           </rect>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2888,7 +2889,7 @@ QTabWidget::pane {
                           <rect>
                            <x>0</x>
                            <y>0</y>
-                           <width>1062</width>
+                           <width>1069</width>
                            <height>648</height>
                           </rect>
                          </property>
@@ -3315,7 +3316,7 @@ QLineEdit {
 }</string>
                  </property>
                  <property name="currentIndex">
-                  <number>2</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="AddNewCar_Tab">
                   <property name="styleSheet">
@@ -3363,7 +3364,7 @@ QLineEdit {
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>1073</width>
+                        <width>1080</width>
                         <height>641</height>
                        </rect>
                       </property>
@@ -3733,7 +3734,7 @@ QPushButton:disabled {
                     <number>20</number>
                    </property>
                    <item>
-                    <widget class="QScrollArea" name="scrollArea_6">
+                    <widget class="QScrollArea" name="Delete_car_scrollArea">
                      <property name="styleSheet">
                       <string notr="true">QScrollArea {
 	border: none;
@@ -3747,7 +3748,7 @@ QPushButton:disabled {
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>1090</width>
+                        <width>1097</width>
                         <height>585</height>
                        </rect>
                       </property>
@@ -4041,7 +4042,7 @@ QTabWidget::pane {
 </string>
                  </property>
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="CarChecking_orders_tab">
                   <attribute name="title">
@@ -4075,7 +4076,7 @@ QTabWidget::pane {
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>1090</width>
+                        <width>1097</width>
                         <height>625</height>
                        </rect>
                       </property>
@@ -4125,7 +4126,7 @@ QTabWidget::pane {
                     <number>10</number>
                    </property>
                    <item>
-                    <widget class="QScrollArea" name="scrollArea_7">
+                    <widget class="QScrollArea" name="Verification_orders_scrollArea">
                      <property name="styleSheet">
                       <string notr="true">QScrollArea {
 	border: none;
@@ -4142,19 +4143,28 @@ QTabWidget::pane {
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>1073</width>
-                        <height>605</height>
+                        <width>1080</width>
+                        <height>1138</height>
                        </rect>
                       </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_30" stretch="1,0,1,0">
+                      <property name="styleSheet">
+                       <string notr="true">QComboBox {
+	border: 1px solid gray;
+        border-radius: 2px;
+        padding: 4px;
+        background-color: #2b2b2b;
+        color: white;
+}</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_30" stretch="0,0,0,0,0,0,0,0,0,0,0">
                        <property name="spacing">
-                        <number>0</number>
+                        <number>5</number>
                        </property>
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
                        <property name="topMargin">
-                        <number>0</number>
+                        <number>10</number>
                        </property>
                        <property name="rightMargin">
                         <number>0</number>
@@ -4163,7 +4173,7 @@ QTabWidget::pane {
                         <number>10</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="label_2">
+                        <widget class="QLabel" name="Order_Information_label">
                          <property name="maximumSize">
                           <size>
                            <width>16777215</width>
@@ -4173,6 +4183,7 @@ QTabWidget::pane {
                          <property name="font">
                           <font>
                            <pointsize>18</pointsize>
+                           <bold>true</bold>
                           </font>
                          </property>
                          <property name="text">
@@ -4181,40 +4192,48 @@ QTabWidget::pane {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QWidget" name="widget_2" native="true">
+                        <widget class="QWidget" name="order_information_widget" native="true">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>0</height>
+                           <height>105</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
                            <width>16777215</width>
-                           <height>100</height>
+                           <height>105</height>
                           </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QWidget *{
+	font-size: 14pt;
+}</string>
                          </property>
                          <layout class="QFormLayout" name="formLayout_4">
                           <property name="horizontalSpacing">
-                           <number>150</number>
+                           <number>60</number>
                           </property>
                           <property name="verticalSpacing">
-                           <number>10</number>
+                           <number>15</number>
                           </property>
                           <property name="leftMargin">
                            <number>0</number>
                           </property>
                           <property name="topMargin">
-                           <number>0</number>
+                           <number>15</number>
                           </property>
                           <property name="rightMargin">
                            <number>0</number>
                           </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
                           <item row="0" column="0">
-                           <widget class="QLabel" name="label_8">
+                           <widget class="QLabel" name="rental_date_label">
                             <property name="font">
                              <font>
-                              <pointsize>12</pointsize>
+                              <pointsize>14</pointsize>
                               <bold>false</bold>
                              </font>
                             </property>
@@ -4224,28 +4243,28 @@ QTabWidget::pane {
                            </widget>
                           </item>
                           <item row="0" column="1">
-                           <widget class="QLabel" name="label_11">
+                           <widget class="QLabel" name="car_model_label">
                             <property name="font">
                              <font>
-                              <pointsize>12</pointsize>
+                              <pointsize>14</pointsize>
                              </font>
                             </property>
                             <property name="text">
-                             <string>Client email:</string>
+                             <string>Car model:</string>
                             </property>
                            </widget>
                           </item>
                           <item row="1" column="0">
-                           <widget class="QLabel" name="label_9">
+                           <widget class="QLabel" name="client_name_label">
                             <property name="maximumSize">
                              <size>
                               <width>16777215</width>
-                              <height>20</height>
+                              <height>25</height>
                              </size>
                             </property>
                             <property name="font">
                              <font>
-                              <pointsize>12</pointsize>
+                              <pointsize>14</pointsize>
                              </font>
                             </property>
                             <property name="text">
@@ -4254,20 +4273,20 @@ QTabWidget::pane {
                            </widget>
                           </item>
                           <item row="1" column="1">
-                           <widget class="QLabel" name="label_10">
+                           <widget class="QLabel" name="client_email_label">
                             <property name="maximumSize">
                              <size>
                               <width>16777215</width>
-                              <height>20</height>
+                              <height>25</height>
                              </size>
                             </property>
                             <property name="font">
                              <font>
-                              <pointsize>12</pointsize>
+                              <pointsize>14</pointsize>
                              </font>
                             </property>
                             <property name="text">
-                             <string>Car model:</string>
+                             <string>Client email:</string>
                             </property>
                            </widget>
                           </item>
@@ -4275,22 +4294,23 @@ QTabWidget::pane {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_3">
+                        <widget class="QLabel" name="exterior_condition_label">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>50</height>
+                           <height>40</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
                            <width>16777215</width>
-                           <height>50</height>
+                           <height>40</height>
                           </size>
                          </property>
                          <property name="font">
                           <font>
-                           <pointsize>16</pointsize>
+                           <pointsize>18</pointsize>
+                           <bold>true</bold>
                           </font>
                          </property>
                          <property name="text">
@@ -4299,25 +4319,53 @@ QTabWidget::pane {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QWidget" name="widget_3" native="true">
+                        <widget class="QWidget" name="exterior_condition_widget" native="true">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>0</height>
+                           <height>180</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
                            <width>16777215</width>
-                           <height>700</height>
+                           <height>180</height>
                           </size>
                          </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QWidget *{
+	font-size: 14pt;
+}</string>
+                         </property>
                          <layout class="QFormLayout" name="formLayout_7">
+                          <property name="horizontalSpacing">
+                           <number>50</number>
+                          </property>
+                          <property name="verticalSpacing">
+                           <number>10</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>100</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
                           <item row="0" column="0">
-                           <widget class="QLabel" name="label_4">
+                           <widget class="QLabel" name="dents_label">
                             <property name="font">
                              <font>
-                              <pointsize>12</pointsize>
+                              <pointsize>14</pointsize>
                              </font>
                             </property>
                             <property name="text">
@@ -4326,14 +4374,36 @@ QTabWidget::pane {
                            </widget>
                           </item>
                           <item row="0" column="1">
-                           <widget class="QLabel" name="label_5">
+                           <widget class="QLabel" name="scratches_label">
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
                             <property name="text">
-                             <string>TextLabel</string>
+                             <string>Scratches on the car?</string>
                             </property>
                            </widget>
                           </item>
                           <item row="1" column="0">
-                           <widget class="QComboBox" name="comboBox">
+                           <widget class="QComboBox" name="dents_comboBox">
+                            <property name="minimumSize">
+                             <size>
+                              <width>80</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
                             <item>
                              <property name="text">
                               <string>Yes</string>
@@ -4347,29 +4417,534 @@ QTabWidget::pane {
                            </widget>
                           </item>
                           <item row="1" column="1">
-                           <widget class="QComboBox" name="comboBox_2"/>
+                           <widget class="QComboBox" name="scratches_comboBox">
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
                           </item>
                           <item row="2" column="0">
-                           <widget class="QLabel" name="label_6">
+                           <widget class="QLabel" name="paintwork_label">
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
                             <property name="text">
-                             <string>TextLabel</string>
+                             <string>Condition of paintwork</string>
                             </property>
                            </widget>
                           </item>
                           <item row="2" column="1">
-                           <widget class="QLabel" name="label_7">
+                           <widget class="QLabel" name="cracks_label">
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
                             <property name="text">
-                             <string>TextLabel</string>
+                             <string>Cracks in glass, lamps?</string>
                             </property>
                            </widget>
                           </item>
                           <item row="3" column="0">
-                           <widget class="QComboBox" name="comboBox_3"/>
+                           <widget class="QComboBox" name="paintwork_comboBox">
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Excellent</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>Some damage</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>Significant damage</string>
+                             </property>
+                            </item>
+                           </widget>
                           </item>
                           <item row="3" column="1">
-                           <widget class="QComboBox" name="comboBox_4"/>
+                           <widget class="QComboBox" name="cracks_comboBox">
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
                           </item>
                          </layout>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="technical_condition_label">
+                         <property name="font">
+                          <font>
+                           <pointsize>18</pointsize>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Technical condition</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QWidget" name="technikal_condition_widget" native="true">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>250</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QWidget *{
+	font-size: 14pt;
+}</string>
+                         </property>
+                         <layout class="QFormLayout" name="formLayout_5">
+                          <property name="horizontalSpacing">
+                           <number>40</number>
+                          </property>
+                          <property name="verticalSpacing">
+                           <number>10</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <item row="0" column="0">
+                           <widget class="QLabel" name="engine_label">
+                            <property name="text">
+                             <string>Is the engine running properly?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="0" column="1">
+                           <widget class="QLabel" name="lights_signals_label">
+                            <property name="text">
+                             <string>Are all lights and signals operational?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="0">
+                           <widget class="QComboBox" name="engine_comboBox">
+                            <property name="minimumSize">
+                             <size>
+                              <width>80</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                          <item row="1" column="1">
+                           <widget class="QComboBox" name="lights_signals_comboBox">
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                          <item row="2" column="0">
+                           <widget class="QLabel" name="braking_system_label">
+                            <property name="text">
+                             <string>Is the braking system in good condition?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="3" column="0">
+                           <widget class="QComboBox" name="braking_system_comboBox">
+                            <property name="minimumSize">
+                             <size>
+                              <width>80</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                          <item row="2" column="1">
+                           <widget class="QLabel" name="errors_label">
+                            <property name="text">
+                             <string>Errors on the dashboard?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="3" column="1">
+                           <widget class="QComboBox" name="errors_comboBox">
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                          <item row="4" column="0">
+                           <widget class="QLabel" name="fuel_level_label">
+                            <property name="text">
+                             <string>Fuel level on return:</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="5" column="0">
+                           <widget class="QComboBox" name="fuel_level_comboBox">
+                            <item>
+                             <property name="text">
+                              <string>Empty</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>Middle</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>Full</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="internal_state_label">
+                         <property name="font">
+                          <font>
+                           <pointsize>18</pointsize>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Internal state:</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QWidget" name="internal_state_widget" native="true">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>170</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QWidget *{
+	font-size: 14pt;
+}</string>
+                         </property>
+                         <layout class="QFormLayout" name="formLayout_6">
+                          <property name="horizontalSpacing">
+                           <number>30</number>
+                          </property>
+                          <property name="verticalSpacing">
+                           <number>10</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>10</number>
+                          </property>
+                          <item row="0" column="0">
+                           <widget class="QLabel" name="interior_condition_label">
+                            <property name="text">
+                             <string>Is the interior clean and undamaged?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="0" column="1">
+                           <widget class="QLabel" name="seats_condition_label">
+                            <property name="text">
+                             <string>Are the seats and upholstery in good condition?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="0">
+                           <widget class="QComboBox" name="interior_condition_comboBox">
+                            <property name="minimumSize">
+                             <size>
+                              <width>80</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                          <item row="1" column="1">
+                           <widget class="QComboBox" name="seats_condition_comboBox">
+                            <property name="maximumSize">
+                             <size>
+                              <width>80</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                          <item row="2" column="0">
+                           <widget class="QLabel" name="any_odors_label">
+                            <property name="text">
+                             <string>Are there any unusual odors inside the vehicle?</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="3" column="0">
+                           <widget class="QComboBox" name="any_odors_comboBox">
+                            <property name="minimumSize">
+                             <size>
+                              <width>80</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>Yes</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>No</string>
+                             </property>
+                            </item>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="General_condition_assessment_label">
+                         <property name="font">
+                          <font>
+                           <pointsize>18</pointsize>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>General condition assessment(5 - perfect condition)</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="general_assessment_comboBox">
+                         <property name="maximumSize">
+                          <size>
+                           <width>80</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>1</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>2</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>3</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>4</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>5</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="confirm_verification_button">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>120</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>200</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>20</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton {
+    background-color: #ff7b00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+QPushButton:hover {
+    background-color: #de6b00;
+}
+QPushButton:pressed {
+    background-color: #c45f00;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>Confirm</string>
+                         </property>
                         </widget>
                        </item>
                       </layout>
