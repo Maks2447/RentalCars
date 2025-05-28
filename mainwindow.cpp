@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Home_timePick_start->setMenu(timePick_startMenu);
     ui->Home_timePick_end->setMenu(timePick_endMenu);
 
-    setData(currentUser);
+    //setData(currentUser);
     applyStyleSheet();
     set_validator();
 
@@ -680,15 +680,13 @@ void MainWindow::orderCarShow(const QVector<QString>& carData, const QPixmap &ph
 
 void MainWindow::Home_search_pushButton_clicked(QString query)
 {
-    if(isFiltr == false) {
-        const auto &checkbox = ui->widget->findChildren<QCheckBox*>();
-        for(QCheckBox *checkbox : checkbox) {
-            if (checkbox->isChecked()) {
-                checkbox->setChecked(false);
-            }
+    const auto &checkbox = ui->widget->findChildren<QCheckBox*>();
+    for(QCheckBox *checkbox : checkbox) {
+        if (checkbox->isChecked()) {
+            query = getFilters();
+            break;
         }
     }
-    isFiltr = false;
 
     start_date = calendar_start_date;
     end_date = calendar_end_date;
@@ -908,7 +906,6 @@ void MainWindow::resetFilters_clicked()
 
 void MainWindow::on_setFilters_pushButton_clicked()
 {
-    isFiltr = true;
     Home_search_pushButton_clicked(getFilters());
 }
 
