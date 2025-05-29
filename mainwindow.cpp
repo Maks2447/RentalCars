@@ -408,9 +408,6 @@ void MainWindow::loadCars(QString queryStr)
             orderCarShow(car, photoPixmap);
         });
 
-        //QLabel *space = new QLabel("", childWdg);
-        //>>
-
         //Adding widgets in grid(positions)
         childLayout->addWidget(photo, 0,0, 7,1, Qt::AlignLeft);
         childLayout->addWidget(model, 0,1, 1,2);
@@ -426,7 +423,7 @@ void MainWindow::loadCars(QString queryStr)
 
         childLayout->addWidget(price, 0,3, Qt::AlignRight);
         childLayout->addWidget(orderButton, 6,3, Qt::AlignRight);
-        //childLayout->addWidget(space, 5,3);
+
         //>>
 
         //Set picture
@@ -438,7 +435,6 @@ void MainWindow::loadCars(QString queryStr)
         //>>
 
         //space->setFixedWidth(480);
-        //Relative(относительный) distance between rows
         childLayout->setRowStretch(0, 0);
         childLayout->setRowStretch(1, 0);
         childLayout->setRowStretch(2, 0);

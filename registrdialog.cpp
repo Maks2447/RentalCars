@@ -19,6 +19,8 @@ RegistrDialog::RegistrDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowTitle("MaxDrive Login");
+
     this->setObjectName("this");
     ui->acceptButton->setObjectName("acceptButton");
     ui->changeButton->setObjectName("changeButton");
@@ -86,6 +88,9 @@ void RegistrDialog::signIn()
             ui->incorrectData->setStyleSheet("color: red;");
             ui->lineEditEmail_1->setStyleSheet("border: 1px solid red;");
             ui->lineEditPassword_1->setStyleSheet("border: 1px solid red;");
+            if (ui->incorrectData) {
+                ui->incorrectData->show();
+            }
         }
     }
 }
@@ -111,6 +116,8 @@ void RegistrDialog::createAccount()
     } else if(!isRightPassword(password)) {
         ui->exclamationMark->setPixmap(QPixmap("C:/Users/golov/Downloads/exclamationmark_red.png"));
         ui->lineEditPassword_2->setStyleSheet("border: 1px solid red;");
+        if (ui->incorrectPassword)
+            ui->incorrectPassword->show();
     } else {
         query.prepare("INSERT INTO \"Users\" (\"name\", \"surname\", \"email\", \"password\", \"phone\")"
                       "VALUES(:name, :surname, :email, :password, :phone)");
@@ -175,11 +182,16 @@ void RegistrDialog::on_changeButton_clicked()
         ui->changeButton->setText("SIGN IN ACCOUNT");
         ui->stackedWidget->setCurrentWidget(ui->create_page);
         ui->titleLabel->setText("Create Account");
+        if (ui->incorrectPassword)
+            ui->incorrectPassword->hide();
     } else {
         ui->acceptButton->setText("SIGN IN");
         ui->changeButton->setText("CREATE ACCOUNT");
         ui->stackedWidget->setCurrentWidget(ui->login_page);
         ui->titleLabel->setText("Login");
+        if (ui->incorrectData) {
+            ui->incorrectData->hide();
+        }
     }
     ui->exclamationMark->setPixmap(QPixmap("C:/Users/golov/Downloads/exclamationmark_white.png"));
     currentButton = !currentButton;
