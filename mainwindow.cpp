@@ -23,13 +23,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , isLogin(false)
+    , myBookingsTab(false)
 {    
     ui->setupUi(this);
 
     setWindowTitle("MaxDrive");
 
     if (db.openDatabase()) {
-        //qDebug() << "База данных открыта успешно!";
+        qDebug() << "DB is successfully open!";
     }
 
     container = new QWidget();
@@ -75,7 +76,6 @@ MainWindow::MainWindow(QWidget *parent)
         ui->stackedWidget->setCurrentIndex(0);
     });
 
-    //connect(ui->Home_searchTo_pushButton, &QPushButton::clicked, this, &MainWindow::on_Home_searchFrom_pushButton_clicked);
     connect(calendar, &QCalendarWidget::clicked, this, &MainWindow::calendarDataChoice);
     ui->Home_DayFrom_pushButton->setText(QDate::currentDate().toString("MMM dd"));
     calendar_start_date = QDate::currentDate();
@@ -90,13 +90,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Home_timePick_start->setMenu(timePick_startMenu);
     ui->Home_timePick_end->setMenu(timePick_endMenu);
 
-    //setData(currentUser);
+    setData(currentUser);
     applyStyleSheet();
     set_validator();
 
     //calendar->setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
 
-    // Стилизация календаря (чтобы он был красивее)
     // calendar->setStyleSheet(
     //     "QCalendarWidget {"
     //     "    background-color: #212121;"
@@ -383,8 +382,8 @@ void MainWindow::loadCars(QString queryStr)
         int textWidth = textRect.width();
 
         if(carClass->text() == "Sport") {
-            carClass->setMinimumWidth(textWidth + 25);
-            carClass->setMaximumWidth(textWidth + 25);
+            carClass->setMinimumWidth(textWidth + 28);
+            carClass->setMaximumWidth(textWidth + 28);
         } else {
             carClass->setMinimumWidth(textWidth + 42);
             carClass->setMaximumWidth(textWidth + 42);
@@ -489,11 +488,6 @@ void MainWindow::setData(const UserData &user)
     currentUser = user;
     isLogin = true;
 
-    // currentUser.phone = "+48 790504452";
-    // currentUser.name = "Maksym";
-    // currentUser.surname = "Holoviznyi";
-    // currentUser.email = "golovisnyimaksim@gmail.com";
-
     double loginButtonWidth;
 
     QString UserName = currentUser.name + " " +currentUser.surname;
@@ -575,21 +569,25 @@ void MainWindow::setData(const UserData &user)
         "}"
         );
 
-    QTabBar *tabBar = ui->Booking_innerTab->tabBar();
+    if(myBookingsTab == false) {
 
-    int index = ui->Booking_innerTab->insertTab(0,new QWidget(), "My bookings");
-    ui->Booking_innerTab->setTabEnabled(index, false);
-    ui->Booking_innerTab->setCurrentIndex(1);
-    tabBar->setStyleSheet("QTabBar::tab:first {background: transparent; color: white; font: 32px; margin-top: -5px; padding-top: -0px; padding-right: 15px; padding-left: -35px;}");
+        QTabBar *tabBar = ui->Booking_innerTab->tabBar();
 
-    connect(tabBar, &QTabBar::currentChanged, this, [=](int index){
-        if (index == 1) {
-            ui->Booking_innerTab->setCurrentIndex(1);
-        } else {
-            ui->Booking_innerTab->setCurrentIndex(2);
-        }
-    });
+        int index = ui->Booking_innerTab->insertTab(0,new QWidget(), "My bookings");
+        ui->Booking_innerTab->setTabEnabled(index, false);
+        ui->Booking_innerTab->setCurrentIndex(1);
+        tabBar->setStyleSheet("QTabBar::tab:first {background: transparent; color: white; font: 32px; margin-top: -5px; padding-top: -0px; padding-right: 15px; padding-left: -35px;}");
 
+        connect(tabBar, &QTabBar::currentChanged, this, [=](int index){
+            if (index == 1) {
+                ui->Booking_innerTab->setCurrentIndex(1);
+            } else {
+                ui->Booking_innerTab->setCurrentIndex(2);
+            }
+        });
+
+        myBookingsTab = true;
+    }
 
     show_active_orders();
     show_past_orders();
@@ -603,8 +601,7 @@ void MainWindow::setData(const UserData &user)
     int indexManagement = ui->ProfilePage_mainTabWidget->indexOf(ui->Profile_car_management);
     if (indexManagement != -1) {
         ui->ProfilePage_mainTabWidget->setTabVisible(indexManagement, false);
-        currentUser.id_user = 1 ; //!!!!!!!!!!!!!!!!
-        if(currentUser.id_user == 1) {
+        if(currentUser.id_user == 1) {////
             ui->ProfilePage_mainTabWidget->setTabVisible(indexManagement, true);
         }
     }
@@ -619,7 +616,7 @@ void MainWindow::setData(const UserData &user)
 
     int indexPoints = ui->CarChecking_TabWidget->indexOf(ui->CarChecking_points_tab);
     if (indexPoints != -1) {
-        ui->CarChecking_TabWidget->setTabVisible(indexPoints, false);
+        ui->CarChecking_TabWidget->setTabEnabled(indexPoints, false);
     }
 
     int indexInfo = ui->CarManagement_TabWidget->indexOf(ui->ChangeInfo_tab);
@@ -1085,8 +1082,7 @@ void MainWindow::show_active_orders()
                   "JOIN \"Orders\" ON \"Users\".\"id_user\" = \"Orders\".\"user_id\" "
                   "JOIN \"Cars\" ON \"Orders\".\"car_id\" = \"Cars\".\"id_car\" "
                   "WHERE \"Users\".\"id_user\" = :id_user "
-                  "AND \"Orders\".\"start_date\" >= :currentDate");
-    //currentUser.id_user = 1;
+                  "AND \"Orders\".\"end_date\" >= :currentDate");
     query.bindValue(":id_user", currentUser.id_user);
     query.bindValue(":currentDate", currentDate);
 
@@ -1126,7 +1122,6 @@ void MainWindow::show_past_orders()
                   "JOIN \"Cars\" ON \"Orders\".\"car_id\" = \"Cars\".\"id_car\" "
                   "WHERE \"Users\".\"id_user\" = :id_user "
                   "AND \"Orders\".\"end_date\" < :currentDate");
-    //currentUser.id_user = 1;
     query.bindValue(":id_user", currentUser.id_user);
     query.bindValue(":currentDate", currentDate);
 
@@ -1168,7 +1163,9 @@ void MainWindow::create_widgetCard(QVBoxLayout *layoutWidgetCard, QVector<QPair<
         const QPixmap &photoPixmap = carsList[i].second;
 
         QWidget *widgetCard = new QWidget(this);
-        widgetCard->setFixedSize(650, 140);
+        widgetCard->setFixedHeight(140);
+        widgetCard->setFixedWidth(650);
+        widgetCard->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         layoutWidgetCard->addWidget(widgetCard);
 
         QGridLayout *layoutCard = new QGridLayout(widgetCard);
@@ -1184,7 +1181,18 @@ void MainWindow::create_widgetCard(QVBoxLayout *layoutWidgetCard, QVector<QPair<
 
         QLabel *model = new QLabel(car[0], widgetCard);
         model->setStyleSheet("font-weight: 600; font-size: 18px; padding-bottom: 5px;");
-        QLabel *dateOfBooking = new QLabel(car[2] + " - " + car[3] + " $" + car[1], widgetCard);
+
+        int year = QDate::currentDate().year();
+        QLocale locale(QLocale::English);
+        QDate d1 = locale.toDate(car[2] + " " + QString::number(year), "dd MMM yyyy");
+        QDate d2 = locale.toDate(car[3] + " " + QString::number(year), "dd MMM yyyy");
+
+        int diffDays = 0;
+        if (d1.isValid() && d2.isValid()) {
+            diffDays = std::abs(d1.daysTo(d2));
+        }
+        int total_price = diffDays * car[1].toInt();
+        QLabel *dateOfBooking = new QLabel(car[2] + " - " + car[3] + " $" + QString::number(total_price), widgetCard);
         dateOfBooking->setStyleSheet("padding-bottom: 8px;");
         QLabel *statusOfBooking = new QLabel(widgetCard);
 
@@ -1228,7 +1236,6 @@ void MainWindow::creationInnerTabs()
         button->setFixedSize(210, 60);
         button->setText("Save");
     }
-
 
     connect(saveChangesButton_personalInformation, &QPushButton::clicked, this, &MainWindow::saveChangesButton);
     connect(saveChangesButton_email, &QPushButton::clicked, this, &MainWindow::saveChangesButton);
@@ -1373,7 +1380,6 @@ void MainWindow::saveChangesButton()
 
 void MainWindow::refreshData()
 {
-    //currentUser.id_user = 1;
     QSqlQuery query;
     query.prepare("SELECT \"name\", \"surname\", \"phone\", \"email\", \"password\" "
                   "FROM \"Users\" "
@@ -1649,6 +1655,8 @@ void MainWindow::on_saveChanges_car_button_clicked()
 
 void MainWindow::create_unverified_orders_widgets()
 {
+    clearCars(ui->verticalLayout_28);
+
     QVector<QPair<QVector<QString>, QPixmap>> order = db.unverified_orders();
 
     if(!order.isEmpty()) {
@@ -1715,7 +1723,7 @@ void MainWindow::create_unverified_orders_widgets()
 
 void MainWindow::verificate_car_button(const QVector<QString> &car)
 {
-    ui->CarChecking_TabWidget->setTabVisible(1, true);
+    ui->CarChecking_TabWidget->setTabEnabled(1, true);
     ui->CarChecking_TabWidget->setCurrentIndex(1);
 
     ui->rental_date_label->setText("Rental date: " + car[1] + " - " + car[2]);
@@ -1727,7 +1735,6 @@ void MainWindow::verificate_car_button(const QVector<QString> &car)
 void MainWindow::on_confirm_verification_button_clicked()
 {
 
-
     QSqlQuery query;
     query.prepare("INSERT INTO \"Car_condition\" (\"order_id\", \"isDents_check\", \"isScratches_check\", \"paintwork_check\", "
                   "\"isCracks_check\", \"isEngine_correct\", \"isLights_correct\", \"isBrakingSystem_correct\", \"anyErrors\", "
@@ -1735,5 +1742,12 @@ void MainWindow::on_confirm_verification_button_clicked()
                   "VALUES(:order_id, :isDents_check, :isScratches_check, :paintwork_check, :isCracks_check, :isEngine_correct, :isLights_correct, "
                   ":isBrakingSystem_correct, :anyErrors, :fuelLevel, :isInterior_clean, :isSeats_clean, :anyOdors, :general_rating)");
     query.exec();
+}
+
+
+void MainWindow::on_logout_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    logout();
 }
 

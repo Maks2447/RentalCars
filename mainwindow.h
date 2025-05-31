@@ -98,6 +98,8 @@ private slots:
 
     void on_confirm_verification_button_clicked();
 
+    void on_logout_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -136,5 +138,6 @@ private:
     QString currentPhotoFilePath;
 
     bool isFiltr;
+    bool myBookingsTab;
 };
 #endif // MAINWINDOW_H
