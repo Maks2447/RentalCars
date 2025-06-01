@@ -67,9 +67,10 @@ QVector<QPair<QVector<QString>, QPixmap>> Database::getCars(QString queryStr)
 
     if(queryStr.isEmpty()) {
         query.prepare("SELECT \"photo\", \"model\", \"specifications\", \"class\", \"fuel\", \"transmission\", \"price\", \"type\", \"passengers\", \"id_car\" "
-                      "FROM \"Cars\""
-                      "WHERE \"id_deleted\" = false");
+                      "FROM \"Cars\" "
+                      "WHERE \"id_deleted\" = false ");
     } else {
+        queryStr += " ORDER BY \"price\" DESC";
         query.prepare(queryStr);
     }
 
@@ -77,6 +78,7 @@ QVector<QPair<QVector<QString>, QPixmap>> Database::getCars(QString queryStr)
         while(query.next()) {
             QVector<QString> car;
 
+            qDebug() << query.value("price");
             car.append(query.value("model").toString());
             car.append(query.value("specifications").toString());
             car.append(query.value("class").toString());

@@ -9,6 +9,7 @@
 #include <QCalendarWidget>
 #include <QFormLayout>
 #include <QLabel>
+#include <QComboBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -100,6 +101,8 @@ private slots:
 
     void on_logout_pushButton_clicked();
 
+    bool isYes(QComboBox *comboBox);
+
 private:
     Ui::MainWindow *ui;
 
@@ -139,5 +142,7 @@ private:
 
     bool isFiltr;
     bool myBookingsTab;
+
+    QString id_order;
 };
 #endif // MAINWINDOW_H

@@ -97,7 +97,8 @@ void RegistrDialog::signIn()
 
 void RegistrDialog::createAccount()
 {
-    QSqlQuery query;
+    QSqlQuery querySearch;
+    QSqlQuery queryAdd;
 
     QString name = ui->lineEditName->text();
     QString surname = ui->lineEditSurname->text();
@@ -105,11 +106,11 @@ void RegistrDialog::createAccount()
     QString phoneNumber = ui->lineEditNumber->text();
     QString password = ui->lineEditPassword_2->text();
 
-    query.prepare("SELECT \"email\" FROM \"Users\" WHERE email = :email");
-    query.bindValue(":email", email);
+    querySearch.prepare("SELECT \"email\" FROM \"Users\" WHERE email = :email");
+    querySearch.bindValue(":email", email);
 
     ui->incorrectEmail->setText("");
-    if(query.exec() && query.next()) {
+    if(querySearch.exec() && querySearch.next()) {
         ui->incorrectEmail->setText("Email already exists");
         ui->incorrectEmail->setStyleSheet("color: red;");
         ui->lineEditEmail_2->setStyleSheet("border: 1px solid red;");
@@ -119,22 +120,28 @@ void RegistrDialog::createAccount()
         if (ui->incorrectPassword)
             ui->incorrectPassword->show();
     } else {
-        query.prepare("INSERT INTO \"Users\" (\"name\", \"surname\", \"email\", \"password\", \"phone\")"
+        queryAdd.prepare("INSERT INTO \"Users\" (\"name\", \"surname\", \"email\", \"password\", \"phone\")"
                       "VALUES(:name, :surname, :email, :password, :phone)");
 
-        query.bindValue(":name", name);
-        query.bindValue(":surname", surname);
-        query.bindValue(":email", email);
-        query.bindValue(":phone", phoneNumber);
-        query.bindValue(":password", password);
+        queryAdd.bindValue(":name", name);
+        queryAdd.bindValue(":surname", surname);
+        queryAdd.bindValue(":email", email);
+        queryAdd.bindValue(":phone", phoneNumber);
+        queryAdd.bindValue(":password", password);
 
-        if(query.exec()) {
-            currentUser.id_user = query.value("id").toInt();
-            currentUser.name = query.value("name").toString();
-            currentUser.surname = query.value("surname").toString();
-            currentUser.email = query.value("email").toString();
-            currentUser.phone = query.value("phone").toString();
-            currentUser.password = query.value("phone").toString();
+        if(queryAdd.exec()) {
+            QSqlQuery getUserQuery;
+            getUserQuery.prepare("SELECT * FROM \"Users\" WHERE \"email\" = :email");
+            getUserQuery.bindValue(":email", email);
+            if (getUserQuery.exec() && getUserQuery.next()) {
+                currentUser.id_user = getUserQuery.value("id_user").toInt();
+                currentUser.name = getUserQuery.value("name").toString();
+                currentUser.surname = getUserQuery.value("surname").toString();
+                currentUser.email = getUserQuery.value("email").toString();
+                currentUser.phone = getUserQuery.value("phone").toString();
+                currentUser.password = getUserQuery.value("password").toString();
+            }
+            parentWindow->setData(currentUser);
 
             this->close();
         }

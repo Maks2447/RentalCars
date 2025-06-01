@@ -491,7 +491,6 @@ void MainWindow::setData(const UserData &user)
     double loginButtonWidth;
 
     QString UserName = currentUser.name + " " +currentUser.surname;
-    UserName = "Maksym Holoviznyi";
     QFontMetrics fm(ui->LoginButton->font());
     int textWidth = fm.horizontalAdvance(UserName);
 
@@ -1705,6 +1704,7 @@ void MainWindow::create_unverified_orders_widgets()
                 "    background-color: #2b2b2b;"
                 "}");
             connect(verification_button, &QPushButton::clicked, this, [=]() {
+                id_order = car[0];
                 verificate_car_button(car);
             });
 
@@ -1741,13 +1741,42 @@ void MainWindow::on_confirm_verification_button_clicked()
                   "\"fuelLevel\", \"isInterior_clean\", \"isSeats_clean\", \"anyOdors\", \"general_rating\")"
                   "VALUES(:order_id, :isDents_check, :isScratches_check, :paintwork_check, :isCracks_check, :isEngine_correct, :isLights_correct, "
                   ":isBrakingSystem_correct, :anyErrors, :fuelLevel, :isInterior_clean, :isSeats_clean, :anyOdors, :general_rating)");
-    query.exec();
-}
 
+    query.bindValue(":order_id", id_order.toInt());
+    query.bindValue(":isDents_check", isYes(ui->dents_comboBox));
+    query.bindValue(":isScratches_check", isYes(ui->scratches_comboBox));
+    query.bindValue(":paintwork_check", ui->paintwork_comboBox->currentText());
+    query.bindValue(":isCracks_check", isYes(ui->cracks_comboBox));
+    query.bindValue(":isEngine_correct", isYes(ui->engine_comboBox));
+    query.bindValue(":isLights_correct", isYes(ui->lights_signals_comboBox));
+    query.bindValue(":isBrakingSystem_correct", isYes(ui->braking_system_comboBox));
+    query.bindValue(":anyErrors", isYes(ui->errors_comboBox));
+    query.bindValue(":fuelLevel", ui->fuel_level_comboBox->currentText());
+    query.bindValue(":isInterior_clean", isYes(ui->interior_condition_comboBox));
+    query.bindValue(":isSeats_clean", isYes(ui->seats_condition_comboBox));
+    query.bindValue(":anyOdors", isYes(ui->any_odors_comboBox));
+    query.bindValue(":general_rating", ui->general_assessment_comboBox->currentText().toInt());
+
+    if(query.exec()) {
+        QSqlQuery queryUpdate;
+        queryUpdate.prepare("UPDATE \"Orders\""
+                      "SET \"checked\" = true "
+                      "WHERE \"id_order\" = :id_order");
+        queryUpdate.bindValue(":id_order", id_order.toInt());
+        queryUpdate.exec();
+        ui->CarChecking_TabWidget->setCurrentIndex(0);
+        create_unverified_orders_widgets();
+    }
+}
 
 void MainWindow::on_logout_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
     logout();
+}
+
+bool MainWindow::isYes(QComboBox *comboBox)
+{
+    return comboBox->currentText() == "Yes";
 }
 
