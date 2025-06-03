@@ -78,7 +78,6 @@ QVector<QPair<QVector<QString>, QPixmap>> Database::getCars(QString queryStr)
         while(query.next()) {
             QVector<QString> car;
 
-            qDebug() << query.value("price");
             car.append(query.value("model").toString());
             car.append(query.value("specifications").toString());
             car.append(query.value("class").toString());

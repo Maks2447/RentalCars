@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
     loginIcon->setPixmap(pixmap);
     loginIcon->setMaximumWidth(20);
 
+    ui->LoginButton->setMinimumWidth(168);
+    ui->LoginButton->setMaximumWidth(168);
 
     //
     calendar = new QCalendarWidget(this);
@@ -90,33 +92,33 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Home_timePick_start->setMenu(timePick_startMenu);
     ui->Home_timePick_end->setMenu(timePick_endMenu);
 
-    setData(currentUser);
+    //setData(currentUser);
     applyStyleSheet();
     set_validator();
 
     //calendar->setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
 
-    // calendar->setStyleSheet(
-    //     "QCalendarWidget {"
-    //     "    background-color: #212121;"
-    //     "    color: white;"
-    //     "    border: 1px solid #444;"
-    //     "    border-radius: 8px;"
-    //     "}"
-    //     "QCalendarWidget QAbstractItemView:enabled {"
-    //     "    background-color: #212121;"
-    //     "    selection-background-color: #2E7D32;"
-    //     "    selection-color: white;"
-    //     "    gridline-color: #555;"
-    //     "}"
-    //     "QCalendarWidget QToolButton {"
-    //     "    background-color: #2E7D32;"
-    //     "    color: white;"
-    //     "    font-weight: bold;"
-    //     "    border-radius: 4px;"
-    //     "    margin: 5px;"
-    //     "}"
-    //     );
+    calendar->setStyleSheet(
+        "QCalendarWidget {"
+        "    background-color: #212121;"
+        "    color: white;"
+        "    border: 1px solid #444;"
+        "    border-radius: 8px;"
+        "}"
+        "QCalendarWidget QAbstractItemView:enabled {"
+        "    background-color: #212121;"
+        "    selection-background-color: #2E7D32;"
+        "    selection-color: white;"
+        "    gridline-color: #555;"
+        "}"
+        "QCalendarWidget QToolButton {"
+        "    background-color: #2E7D32;"
+        "    color: white;"
+        "    font-weight: bold;"
+        "    border-radius: 4px;"
+        "    margin: 5px;"
+        "}"
+        );
 
 
     ui->Order_iconLittleCar1->setPixmap(QPixmap("C:/Users/golov/Downloads/icons8-автомобиль-40"));
@@ -744,21 +746,9 @@ void MainWindow::logout()
     disconnect(ui->LoginButton, nullptr, this, nullptr);
     connect(ui->LoginButton, &QPushButton::clicked, this, &MainWindow::on_LoginButton_clicked);
 
-    QHBoxLayout *loginLayout = new QHBoxLayout(ui->LoginButton);
-    loginLayout->setContentsMargins(0, 0, 0, 0);
+    ui->LoginButton->setMinimumWidth(168);
+    ui->LoginButton->setMaximumWidth(168);
 
-    QLabel *loginIcon = new QLabel(ui->LoginButton);
-
-    loginLayout->addWidget(loginIcon, 0, Qt::AlignLeft);
-
-    ui->LoginButton->setLayout(loginLayout);
-
-    QPixmap pixmap("C:/Users/golov/Downloads/icons8-человек-30.png");
-    pixmap = pixmap.scaled(QSize(20,20),Qt::KeepAspectRatio);
-    loginIcon->setPixmap(pixmap);
-    loginIcon->setMaximumWidth(20);
-
-    //Исрпавить
 }
 
 
