@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Home_timePick_start->setMenu(timePick_startMenu);
     ui->Home_timePick_end->setMenu(timePick_endMenu);
 
-    //setData(currentUser);
+    setData(currentUser);
     applyStyleSheet();
     set_validator();
 
@@ -508,13 +508,14 @@ void MainWindow::setData(const UserData &user)
     QMenu *menu = new QMenu(this);
 
     QAction *bookings = menu->addAction("Bookings");
-    bookings->setIcon(QIcon("C:/Users/golov/Downloads/exclamationmark_white.png"));
+    bookings->setIcon(QIcon("C:/Users/golov/Downloads/icons8-книги-24.png"));
 
     QAction *account = menu->addAction("Account");
-    account->setIcon(QIcon("C:/Users/golov/Downloads/icons8-руль-24.png"));
+    account->setIcon(QIcon("C:/Users/golov/Downloads/icons8-user_menu.png"));
 
     menu->addSeparator();
     QAction *logoutAction = menu->addAction("logout");
+    logoutAction->setIcon(QIcon("C:/Users/golov/Downloads/icons8-выход-24.png"));
 
     connect(bookings, &QAction::triggered, this, [=](){
         ui->stackedWidget->setCurrentWidget(ui->ProfilePage);
@@ -1756,6 +1757,11 @@ void MainWindow::on_confirm_verification_button_clicked()
         queryUpdate.exec();
         ui->CarChecking_TabWidget->setCurrentIndex(0);
         create_unverified_orders_widgets();
+
+        int indexPoints = ui->CarChecking_TabWidget->indexOf(ui->CarChecking_points_tab);
+        if (indexPoints != -1) {
+            ui->CarChecking_TabWidget->setTabEnabled(indexPoints, false);
+        }
     }
 }
 

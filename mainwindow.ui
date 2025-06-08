@@ -2824,7 +2824,7 @@ QTabWidget::pane {
 }</string>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="Profile_Booking_Tab">
               <property name="styleSheet">
@@ -2924,8 +2924,8 @@ QTabWidget::pane {
                           <rect>
                            <x>0</x>
                            <y>0</y>
-                           <width>78</width>
-                           <height>35</height>
+                           <width>1069</width>
+                           <height>651</height>
                           </rect>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2961,6 +2961,9 @@ QTabWidget::pane {
                          <string notr="true">QScrollArea {
 	border: none;
 }</string>
+                        </property>
+                        <property name="verticalScrollBarPolicy">
+                         <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
                         </property>
                         <property name="widgetResizable">
                          <bool>true</bool>
@@ -3053,7 +3056,7 @@ QTabWidget::pane {
                   </font>
                  </property>
                  <property name="text">
-                  <string>Account</string>
+                  <string>Account informations</string>
                  </property>
                 </widget>
                </item>
@@ -3832,8 +3835,8 @@ QPushButton:disabled {
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>1097</width>
-                        <height>588</height>
+                        <width>83</width>
+                        <height>16</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_24">
@@ -4126,7 +4129,7 @@ QTabWidget::pane {
 </string>
                  </property>
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="CarChecking_orders_tab">
                   <attribute name="title">
